@@ -30,4 +30,9 @@ public class AlbumController {
     public ResponseEntity<Optional<Album>> getAlbumById(@PathVariable ObjectId id) {
         return new ResponseEntity<Optional<Album>>(albumService.getAlbumById(id), HttpStatus.OK);
     }
+
+    @GetMapping("/title/{title}")
+    public ResponseEntity<Optional<Album>> getAlbumByTitle(@PathVariable String title) {
+        return new ResponseEntity<Optional<Album>>(albumService.getAlbumByTitle(title), HttpStatus.OK);
+    }
 }

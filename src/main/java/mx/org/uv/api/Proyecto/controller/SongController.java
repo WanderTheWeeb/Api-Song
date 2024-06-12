@@ -28,9 +28,22 @@ public class SongController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Song>> getSongById(@PathVariable ObjectId id) {
-        return new ResponseEntity<Optional<Song>>(songService.songById(id), HttpStatus.OK);
+        return new ResponseEntity<>(songService.songById(id), HttpStatus.OK);
     }
 
 
+    @GetMapping("/title/{title}")
+    public ResponseEntity<List<Song>> getSongsByTitle(@PathVariable String title) {
+        List<Song> songs = songService.songsByTitle(title);
+        if (!songs.isEmpty()) {
+            return new ResponseEntity<>(songs, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
+    @GetMapping("/artist/{name}")
+    public ResponseEntity<List<Song>> getSongsByArtistName(@PathVariable String name) {
+        return new ResponseEntity<>(songService.songsByArtistName(name), HttpStatus.OK);
+    }
 }

@@ -1,5 +1,6 @@
 package mx.org.uv.api.Proyecto.service;
 
+import mx.org.uv.api.Proyecto.model.Album;
 import mx.org.uv.api.Proyecto.model.Artist;
 import mx.org.uv.api.Proyecto.model.Song;
 import mx.org.uv.api.Proyecto.repository.SongRepository;
@@ -29,5 +30,16 @@ public class SongService {
         return songRepository.findById(id);
     }
 
+    public List<Song> songsByTitle(String title) {
+        return songRepository.findByTitle(title);
+    }
+
+    public List<Song> songsByArtistName(String artistName) {
+        Optional<Artist> artist = artistService.findByName(artistName);
+        if (artist.isPresent()) {
+            return songRepository.findByArtistId(artist.get().getId());
+        }
+        return Collections.emptyList();
+    }
 
 }

@@ -23,6 +23,9 @@ public class ArtistService {
         return artistRepository.findById(id);
     }
 
+    public Optional<Artist> findByName(String name) {
+        return artistRepository.findByName(name);
+    }
 
 
 }

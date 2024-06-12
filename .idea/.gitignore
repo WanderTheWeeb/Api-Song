@@ -9,3 +9,4 @@
 
 # ENVIRONMENT
 ../src/main/resources/.env
+.env

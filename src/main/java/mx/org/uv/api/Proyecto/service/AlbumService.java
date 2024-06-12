@@ -22,4 +22,8 @@ public class AlbumService {
     public Optional<Album> getAlbumById(ObjectId id) {
         return albumRepository.findById(id);
     }
+
+    public Optional<Album> getAlbumByTitle(String title) {
+        return albumRepository.findByTitle(title);
+    }
 }

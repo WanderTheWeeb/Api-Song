@@ -18,8 +18,8 @@ public class Song {
     @Id
     private ObjectId id;
     private String title;
-    private String artistId;
-    private String albumId;
+    private ObjectId artistId;
+    private ObjectId albumId;
     private String genre;
     private int year;
     private String duration;
@@ -31,7 +31,7 @@ public class Song {
 
     public static final String DEFAULT_ALBUM = "Single";
 
-    public String getAlbumId() {
-        return albumId != null ? albumId : DEFAULT_ALBUM;
+    public String getAlbumIdAsString(Song song) {
+        return song.getAlbumId() != null ? song.getAlbumId().toString() : "Single";
     }
 }

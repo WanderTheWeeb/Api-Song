@@ -18,7 +18,7 @@ public class Album {
     @Id
     private ObjectId id;
     private String title;
-    private String artistId;
+    private ObjectId artistId;
     private int releaseYear;
     private String genre;
     private String description;
