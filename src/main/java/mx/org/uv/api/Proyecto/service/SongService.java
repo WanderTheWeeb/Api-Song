@@ -42,4 +42,8 @@ public class SongService {
         return Collections.emptyList();
     }
 
+    public Song saveSong(Song song) {
+        return songRepository.save(song);
+    }
+
 }
