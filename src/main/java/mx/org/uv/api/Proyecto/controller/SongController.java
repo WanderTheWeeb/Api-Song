@@ -31,7 +31,6 @@ public class SongController {
         return new ResponseEntity<>(songService.songById(id), HttpStatus.OK);
     }
 
-
     @GetMapping("/title/{title}")
     public ResponseEntity<List<Song>> getSongsByTitle(@PathVariable String title) {
         List<Song> songs = songService.songsByTitle(title);
