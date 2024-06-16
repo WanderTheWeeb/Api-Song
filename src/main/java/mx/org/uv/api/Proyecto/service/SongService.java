@@ -46,6 +46,11 @@ public class SongService {
         return songRepository.save(song);
     }
 
+    public Song updateSong(ObjectId id, Song song) {
+        song.setId(id);
+        return songRepository.save(song);
+    }
+
     public void deleteSong(ObjectId id) {
         songRepository.deleteById(id);
     }

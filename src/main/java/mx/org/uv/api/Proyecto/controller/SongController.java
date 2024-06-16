@@ -60,6 +60,13 @@ public class SongController {
         return new ResponseEntity<>(songDTO, HttpStatus.CREATED);
     }
 
+    @PutMapping("/update/{id}")
+    public ResponseEntity<SongDTO> updateSong(@PathVariable ObjectId id, @RequestBody Song song) {
+        Song updatedSong = songService.updateSong(id, song);
+        SongDTO songDTO = songMapper.toSongDTO(updatedSong);
+        return new ResponseEntity<>(songDTO, HttpStatus.OK);
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteSong(@PathVariable ObjectId id) {
         Optional<Song> song = songService.songById(id);

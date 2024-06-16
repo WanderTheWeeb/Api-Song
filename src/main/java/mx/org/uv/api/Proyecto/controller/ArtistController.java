@@ -49,7 +49,14 @@ public class ArtistController {
         return new ResponseEntity<>(artistDTO, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("{id}")
+    @PutMapping("{id}")
+    public ResponseEntity<ArtistDTO> updateArtist(@PathVariable ObjectId id, @RequestBody Artist artist) {
+        Artist updatedArtist = artistService.updateArtist(id, artist);
+        ArtistDTO artistDTO = artistMapper.toArtistDTO(updatedArtist);
+        return new ResponseEntity<>(artistDTO, HttpStatus.OK);
+    }
+
+    @DeleteMapping("update/{id}")
     public ResponseEntity<Void> deleteArtist(@PathVariable ObjectId id) {
         artistService.deleteArtist(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

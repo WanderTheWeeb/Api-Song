@@ -31,6 +31,11 @@ public class ArtistService {
         return artistRepository.save(artist);
     }
 
+    public Artist updateArtist(ObjectId id, Artist artist) {
+        artist.setId(id);
+        return artistRepository.save(artist);
+    }
+
     public void deleteArtist(ObjectId id) {
         artistRepository.deleteById(id);
     }

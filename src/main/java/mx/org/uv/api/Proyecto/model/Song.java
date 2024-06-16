@@ -29,9 +29,4 @@ public class Song {
     @DocumentReference
     private List<Artist> collaborators;
 
-    public static final String DEFAULT_ALBUM = "Single";
-
-    public String getAlbumIdAsString(Song song) {
-        return song.getAlbumId() != null ? song.getAlbumId().toString() : "Single";
-    }
 }

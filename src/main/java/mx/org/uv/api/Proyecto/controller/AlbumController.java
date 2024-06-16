@@ -50,6 +50,13 @@ public class AlbumController {
         return new ResponseEntity<>(albumDTO, HttpStatus.CREATED);
     }
 
+    @PutMapping("update/{id}")
+    public ResponseEntity<AlbumDTO> updateAlbum(@PathVariable ObjectId id, @RequestBody Album album) {
+        Album updatedAlbum = albumService.updateAlbum(id, album);
+        AlbumDTO albumDTO = albumMapper.toAlbumDTO(updatedAlbum);
+        return new ResponseEntity<>(albumDTO, HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAlbum(@PathVariable ObjectId id) {
         albumService.deleteAlbum(id);

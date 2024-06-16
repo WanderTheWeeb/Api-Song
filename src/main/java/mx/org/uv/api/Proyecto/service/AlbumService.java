@@ -31,6 +31,11 @@ public class AlbumService {
         return albumRepository.save(album);
     }
 
+    public Album updateAlbum(ObjectId id, Album album) {
+        album.setId(id);
+        return albumRepository.save(album);
+    }
+
     public void deleteAlbum(ObjectId id) {
         albumRepository.deleteById(id);
     }
