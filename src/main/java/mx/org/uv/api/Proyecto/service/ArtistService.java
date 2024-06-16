@@ -2,7 +2,7 @@ package mx.org.uv.api.Proyecto.service;
 
 import mx.org.uv.api.Proyecto.error.exception.ArtistNotFoundException;
 import mx.org.uv.api.Proyecto.model.Artist;
-import mx.org.uv.api.Proyecto.repository.ArtistReporitory;
+import mx.org.uv.api.Proyecto.repository.ArtistRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import java.util.Optional;
 public class ArtistService {
 
     @Autowired
-    private ArtistReporitory artistRepository;
+    private ArtistRepository artistRepository;
 
     public List<Artist> allArtist() {
         return artistRepository.findAll();

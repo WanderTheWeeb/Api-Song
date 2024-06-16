@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface ArtistReporitory extends MongoRepository<Artist, ObjectId> {
+public interface ArtistRepository extends MongoRepository<Artist, ObjectId> {
     Optional<Artist> findByName(String name);
 }
