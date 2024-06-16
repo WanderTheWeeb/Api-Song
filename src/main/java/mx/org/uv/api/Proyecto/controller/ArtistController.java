@@ -10,10 +10,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,5 +34,24 @@ public class ArtistController {
         Optional<Artist> artist = artistService.getArtistById(id);
         Optional<ArtistDTO> artistDTO = artist.map(artistMapper::toArtistDTO);
         return new ResponseEntity<>(artistDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/name/{name}")
+    public ResponseEntity<Optional<ArtistDTO>> getArtistByName(@PathVariable String name) {
+        Optional<Artist> artist = artistService.findByName(name);
+        Optional<ArtistDTO> artistDTO = artist.map(artistMapper::toArtistDTO);
+        return new ResponseEntity<>(artistDTO, HttpStatus.OK);
+    }
+    @PostMapping("/save")
+    public ResponseEntity<ArtistDTO> saveArtist(@RequestBody Artist artist) {
+        Artist savedArtist = artistService.saveArtist(artist);
+        ArtistDTO artistDTO = artistMapper.toArtistDTO(savedArtist);
+        return new ResponseEntity<>(artistDTO, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteArtist(@PathVariable ObjectId id) {
+        artistService.deleteArtist(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

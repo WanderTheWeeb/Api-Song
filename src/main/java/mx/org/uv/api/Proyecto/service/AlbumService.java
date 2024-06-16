@@ -26,4 +26,12 @@ public class AlbumService {
     public Optional<Album> getAlbumByTitle(String title) {
         return albumRepository.findByTitle(title);
     }
+
+    public Album saveAlbum(Album album) {
+        return albumRepository.save(album);
+    }
+
+    public void deleteAlbum(ObjectId id) {
+        albumRepository.deleteById(id);
+    }
 }

@@ -27,5 +27,11 @@ public class ArtistService {
         return artistRepository.findByName(name);
     }
 
+    public Artist saveArtist(Artist artist) {
+        return artistRepository.save(artist);
+    }
 
+    public void deleteArtist(ObjectId id) {
+        artistRepository.deleteById(id);
+    }
 }
