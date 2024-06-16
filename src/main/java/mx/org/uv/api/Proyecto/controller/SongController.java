@@ -1,6 +1,7 @@
 package mx.org.uv.api.Proyecto.controller;
 
 import mx.org.uv.api.Proyecto.dto.SongDTO;
+import mx.org.uv.api.Proyecto.error.exception.SongNotFoundException;
 import mx.org.uv.api.Proyecto.mapper.SongMapper;
 import mx.org.uv.api.Proyecto.model.Song;
 import mx.org.uv.api.Proyecto.service.SongService;
@@ -30,9 +31,10 @@ public class SongController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<SongDTO>> getSongById(@PathVariable ObjectId id) {
+    public ResponseEntity<SongDTO> getSongById(@PathVariable ObjectId id) {
         Optional<Song> song = songService.songById(id);
-        Optional<SongDTO> songDTO = song.map(songMapper::toSongDTO);
+        SongDTO songDTO = song.map(songMapper::toSongDTO)
+                .orElseThrow(() -> new SongNotFoundException(id.toString()));
         return new ResponseEntity<>(songDTO, HttpStatus.OK);
     }
 
@@ -69,11 +71,10 @@ public class SongController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteSong(@PathVariable ObjectId id) {
-        Optional<Song> song = songService.songById(id);
-        if (song.isPresent()) {
+        try {
             songService.deleteSong(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
+        } catch (SongNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

@@ -1,5 +1,7 @@
 package mx.org.uv.api.Proyecto.service;
 
+import mx.org.uv.api.Proyecto.error.exception.SongAlreadyExistsException;
+import mx.org.uv.api.Proyecto.error.exception.SongNotFoundException;
 import mx.org.uv.api.Proyecto.model.Album;
 import mx.org.uv.api.Proyecto.model.Artist;
 import mx.org.uv.api.Proyecto.model.Song;
@@ -43,12 +45,21 @@ public class SongService {
     }
 
     public Song saveSong(Song song) {
+        Optional<Song> existingSong = songRepository.findById(song.getId());
+        if (existingSong.isPresent()) {
+            throw new SongAlreadyExistsException(song.getId().toString());
+        }
         return songRepository.save(song);
     }
 
     public Song updateSong(ObjectId id, Song song) {
-        song.setId(id);
-        return songRepository.save(song);
+        Optional<Song> existingSong = songRepository.findById(id);
+        if (existingSong.isPresent()) {
+            song.setId(id);
+            return songRepository.save(song);
+        } else {
+            throw new SongNotFoundException(id.toString());
+        }
     }
 
     public void deleteSong(ObjectId id) {

@@ -1,6 +1,7 @@
 package mx.org.uv.api.Proyecto.controller;
 
 import mx.org.uv.api.Proyecto.dto.ArtistDTO;
+import mx.org.uv.api.Proyecto.error.exception.ArtistNotFoundException;
 import mx.org.uv.api.Proyecto.mapper.ArtistMapper;
 import mx.org.uv.api.Proyecto.model.Artist;
 import mx.org.uv.api.Proyecto.model.Song;
@@ -10,6 +11,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,20 +32,21 @@ public class ArtistController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Optional<ArtistDTO>> getArtistById(@PathVariable ObjectId id) {
+    public ResponseEntity<ArtistDTO> getArtistById(@PathVariable ObjectId id) {
         Optional<Artist> artist = artistService.getArtistById(id);
-        Optional<ArtistDTO> artistDTO = artist.map(artistMapper::toArtistDTO);
+        ArtistDTO artistDTO = artist.map(artistMapper::toArtistDTO).orElseThrow(() -> new ArtistNotFoundException(id.toString()));
         return new ResponseEntity<>(artistDTO, HttpStatus.OK);
     }
 
     @GetMapping("/name/{name}")
-    public ResponseEntity<Optional<ArtistDTO>> getArtistByName(@PathVariable String name) {
+    public ResponseEntity<ArtistDTO> getArtistByName(@PathVariable String name) {
         Optional<Artist> artist = artistService.findByName(name);
-        Optional<ArtistDTO> artistDTO = artist.map(artistMapper::toArtistDTO);
+        ArtistDTO artistDTO = artist.map(artistMapper::toArtistDTO).orElseThrow(() -> new ArtistNotFoundException(name));
         return new ResponseEntity<>(artistDTO, HttpStatus.OK);
     }
+
     @PostMapping("/save")
-    public ResponseEntity<ArtistDTO> saveArtist(@RequestBody Artist artist) {
+    public ResponseEntity<ArtistDTO> saveArtist(@Validated @RequestBody Artist artist) {
         Artist savedArtist = artistService.saveArtist(artist);
         ArtistDTO artistDTO = artistMapper.toArtistDTO(savedArtist);
         return new ResponseEntity<>(artistDTO, HttpStatus.CREATED);
@@ -52,12 +55,19 @@ public class ArtistController {
     @PutMapping("{id}")
     public ResponseEntity<ArtistDTO> updateArtist(@PathVariable ObjectId id, @RequestBody Artist artist) {
         Artist updatedArtist = artistService.updateArtist(id, artist);
+        if (updatedArtist == null) {
+            throw new ArtistNotFoundException(id.toString());
+        }
         ArtistDTO artistDTO = artistMapper.toArtistDTO(updatedArtist);
         return new ResponseEntity<>(artistDTO, HttpStatus.OK);
     }
 
     @DeleteMapping("update/{id}")
     public ResponseEntity<Void> deleteArtist(@PathVariable ObjectId id) {
+        boolean exists = artistService.existsById(id);
+        if (!exists) {
+            throw new ArtistNotFoundException(id.toString());
+        }
         artistService.deleteArtist(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

@@ -1,6 +1,7 @@
 package mx.org.uv.api.Proyecto.controller;
 
 import mx.org.uv.api.Proyecto.dto.AlbumDTO;
+import mx.org.uv.api.Proyecto.error.exception.AlbumNotFoundException;
 import mx.org.uv.api.Proyecto.mapper.AlbumMapper;
 import mx.org.uv.api.Proyecto.model.Album;
 import mx.org.uv.api.Proyecto.service.AlbumService;
@@ -30,16 +31,16 @@ public class AlbumController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<AlbumDTO>> getAlbumById(@PathVariable ObjectId id) {
+    public ResponseEntity<AlbumDTO> getAlbumById(@PathVariable ObjectId id) {
         Optional<Album> album = albumService.getAlbumById(id);
-        Optional<AlbumDTO> albumDTO = album.map(albumMapper::toAlbumDTO);
+        AlbumDTO albumDTO = album.map(albumMapper::toAlbumDTO).orElseThrow(() -> new AlbumNotFoundException(id.toString()));
         return new ResponseEntity<>(albumDTO, HttpStatus.OK);
     }
 
     @GetMapping("/title/{title}")
-    public ResponseEntity<Optional<AlbumDTO>> getAlbumByTitle(@PathVariable String title) {
+    public ResponseEntity<AlbumDTO> getAlbumByTitle(@PathVariable String title) {
         Optional<Album> album = albumService.getAlbumByTitle(title);
-        Optional<AlbumDTO> albumDTO = album.map(albumMapper::toAlbumDTO);
+        AlbumDTO albumDTO = album.map(albumMapper::toAlbumDTO).orElseThrow(() -> new AlbumNotFoundException(title));
         return new ResponseEntity<>(albumDTO, HttpStatus.OK);
     }
 
