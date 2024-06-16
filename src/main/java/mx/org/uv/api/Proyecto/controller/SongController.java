@@ -54,8 +54,21 @@ public class SongController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Song> saveSong(@RequestBody Song song) {
+    public ResponseEntity<SongDTO> saveSong(@RequestBody Song song) {
         Song savedSong = songService.saveSong(song);
-        return new ResponseEntity<>(savedSong, HttpStatus.CREATED);
+        SongDTO songDTO = songMapper.toSongDTO(savedSong);
+        return new ResponseEntity<>(songDTO, HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteSong(@PathVariable ObjectId id) {
+        Optional<Song> song = songService.songById(id);
+        if (song.isPresent()) {
+            songService.deleteSong(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

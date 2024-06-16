@@ -46,4 +46,7 @@ public class SongService {
         return songRepository.save(song);
     }
 
+    public void deleteSong(ObjectId id) {
+        songRepository.deleteById(id);
+    }
 }
