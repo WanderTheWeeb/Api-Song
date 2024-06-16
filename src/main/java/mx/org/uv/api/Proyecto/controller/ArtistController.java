@@ -1,5 +1,7 @@
 package mx.org.uv.api.Proyecto.controller;
 
+import mx.org.uv.api.Proyecto.dto.ArtistDTO;
+import mx.org.uv.api.Proyecto.mapper.ArtistMapper;
 import mx.org.uv.api.Proyecto.model.Artist;
 import mx.org.uv.api.Proyecto.model.Song;
 import mx.org.uv.api.Proyecto.service.ArtistService;
@@ -21,14 +23,19 @@ import java.util.Optional;
 public class ArtistController {
     @Autowired
     private ArtistService artistService;
+    @Autowired
+    private ArtistMapper artistMapper;
 
     @GetMapping
-    public ResponseEntity<List<Artist>> getAllSongs() {
-        return new ResponseEntity<>(artistService.allArtist(), HttpStatus.OK);
+    public ResponseEntity<List<ArtistDTO>> getAllSongs() {
+        List<Artist> artists = artistService.allArtist();
+        return new ResponseEntity<>(artistMapper.toArtistDTOs(artists), HttpStatus.OK);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Optional<Artist>> getArtistById(@PathVariable ObjectId id) {
-        return new ResponseEntity<Optional<Artist>>(artistService.getArtistById(id), HttpStatus.OK);
+    public ResponseEntity<Optional<ArtistDTO>> getArtistById(@PathVariable ObjectId id) {
+        Optional<Artist> artist = artistService.getArtistById(id);
+        Optional<ArtistDTO> artistDTO = artist.map(artistMapper::toArtistDTO);
+        return new ResponseEntity<>(artistDTO, HttpStatus.OK);
     }
 }

@@ -1,5 +1,7 @@
 package mx.org.uv.api.Proyecto.controller;
 
+import mx.org.uv.api.Proyecto.dto.SongDTO;
+import mx.org.uv.api.Proyecto.mapper.SongMapper;
 import mx.org.uv.api.Proyecto.model.Song;
 import mx.org.uv.api.Proyecto.service.SongService;
 import org.bson.types.ObjectId;
@@ -18,29 +20,37 @@ public class SongController {
     @Autowired
     private SongService songService;
 
+    @Autowired
+    private SongMapper songMapper;
+
     @GetMapping
-    public ResponseEntity<List<Song>> getAllSongs() {
-        return new ResponseEntity<>(songService.allSongs(), HttpStatus.OK);
+    public ResponseEntity<List<SongDTO>> getAllSongs() {
+        List<Song> songs = songService.allSongs();
+        return new ResponseEntity<>(songMapper.toSongDTOs(songs), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Song>> getSongById(@PathVariable ObjectId id) {
-        return new ResponseEntity<>(songService.songById(id), HttpStatus.OK);
+    public ResponseEntity<Optional<SongDTO>> getSongById(@PathVariable ObjectId id) {
+        Optional<Song> song = songService.songById(id);
+        Optional<SongDTO> songDTO = song.map(songMapper::toSongDTO);
+        return new ResponseEntity<>(songDTO, HttpStatus.OK);
     }
 
+
     @GetMapping("/title/{title}")
-    public ResponseEntity<List<Song>> getSongsByTitle(@PathVariable String title) {
+    public ResponseEntity<List<SongDTO>> getSongsByTitle(@PathVariable String title) {
         List<Song> songs = songService.songsByTitle(title);
         if (!songs.isEmpty()) {
-            return new ResponseEntity<>(songs, HttpStatus.OK);
+            return new ResponseEntity<>(songMapper.toSongDTOs(songs), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @GetMapping("/artist/{name}")
-    public ResponseEntity<List<Song>> getSongsByArtistName(@PathVariable String name) {
-        return new ResponseEntity<>(songService.songsByArtistName(name), HttpStatus.OK);
+    public ResponseEntity<List<SongDTO>> getSongsByArtistName(@PathVariable String name) {
+        List<Song> songs = songService.songsByArtistName(name);
+        return new ResponseEntity<>(songMapper.toSongDTOs(songs), HttpStatus.OK);
     }
 
     @PostMapping("/save")

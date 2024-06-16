@@ -1,5 +1,7 @@
 package mx.org.uv.api.Proyecto.controller;
 
+import mx.org.uv.api.Proyecto.dto.AlbumDTO;
+import mx.org.uv.api.Proyecto.mapper.AlbumMapper;
 import mx.org.uv.api.Proyecto.model.Album;
 import mx.org.uv.api.Proyecto.service.AlbumService;
 import org.bson.types.ObjectId;
@@ -21,18 +23,26 @@ public class AlbumController {
     @Autowired
     private AlbumService albumService;
 
+    @Autowired
+    private AlbumMapper albumMapper;
+
     @GetMapping
-    public ResponseEntity<List<Album>> getAllAlbums() {
-        return new ResponseEntity<>(albumService.allAlbums(), HttpStatus.OK);
+    public ResponseEntity<List<AlbumDTO>> getAllAlbums() {
+        List<Album> albums = albumService.allAlbums();
+        return new ResponseEntity<>(albumMapper.toAlbumDTOs(albums), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Album>> getAlbumById(@PathVariable ObjectId id) {
-        return new ResponseEntity<Optional<Album>>(albumService.getAlbumById(id), HttpStatus.OK);
+    public ResponseEntity<Optional<AlbumDTO>> getAlbumById(@PathVariable ObjectId id) {
+        Optional<Album> album = albumService.getAlbumById(id);
+        Optional<AlbumDTO> albumDTO = album.map(albumMapper::toAlbumDTO);
+        return new ResponseEntity<>(albumDTO, HttpStatus.OK);
     }
 
     @GetMapping("/title/{title}")
-    public ResponseEntity<Optional<Album>> getAlbumByTitle(@PathVariable String title) {
-        return new ResponseEntity<Optional<Album>>(albumService.getAlbumByTitle(title), HttpStatus.OK);
+    public ResponseEntity<Optional<AlbumDTO>> getAlbumByTitle(@PathVariable String title) {
+        Optional<Album> album = albumService.getAlbumByTitle(title);
+        Optional<AlbumDTO> albumDTO = album.map(albumMapper::toAlbumDTO);
+        return new ResponseEntity<>(albumDTO, HttpStatus.OK);
     }
 }
