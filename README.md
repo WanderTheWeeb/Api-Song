@@ -4,6 +4,7 @@
 
 ## Tabla de contenidos
 * [Instalación](#instalación)
+* [Documentación](#Documentación)
 * [Información general](#información-general)
 * [Tecnologías](#tecnologías)
 * [Contribuciones](#contribuciones)
@@ -45,6 +46,11 @@
 ```bash
  docker run -p 8080:8080 api-song
 ```
+---
+
+## Documentación
+La documentación de la API se encuentra en la siguiente URL: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+
 ---
 
 ## Información general
