@@ -1,5 +1,5 @@
-FROM amazoncorretto:21
+FROM amazoncorretto:22
 WORKDIR /app
-COPY target/Proyecto-0.0.1-SNAPSHOT.jar.jar app.jar
+COPY target/Proyecto-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]º
+ENTRYPOINT ["java", "-jar", "app.jar"]
