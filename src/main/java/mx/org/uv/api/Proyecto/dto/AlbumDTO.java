@@ -1,24 +1,31 @@
 package mx.org.uv.api.Proyecto.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import mx.org.uv.api.Proyecto.model.Artist;
-import org.bson.types.ObjectId;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.List;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+@Schema(description = "DTO que representa un álbum musical")
 public class AlbumDTO {
-    private ObjectId id;
+
+    @Schema(description = "ID único del álbum", example = "60d5ec49c2a3543d2c1c73b1")
+    private String id;
+
+    @Schema(description = "Título del álbum", example = "Abbey Road")
     private String title;
-    private ObjectId artistId;
+
+    @Schema(description = "ID del artista", example = "60d5ec49c2a3543d2c1c73b2")
+    private String artistId;
+
+    @Schema(description = "Año de lanzamiento del álbum", example = "1969")
     private int releaseYear;
+
+    @Schema(description = "Género del álbum", example = "Rock")
     private String genre;
+
+    @Schema(description = "Descripción del álbum", example = "El último álbum de estudio de The Beatles")
     private String description;
-    private List<Artist> collaborators;
+
+    @Schema(description = "Lista de nombres de los artistas colaboradores en el álbum")
+    private List<String> collaborators;
+
 }

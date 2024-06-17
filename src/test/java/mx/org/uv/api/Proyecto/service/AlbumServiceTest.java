@@ -52,7 +52,6 @@ class AlbumServiceTest {
         assertTrue(result.isPresent());
         assertEquals(album.getTitle(), result.get().getTitle());
         assertEquals(album.getGenre(), result.get().getGenre());
-        // Agrega más comparaciones según sea necesario para los demás atributos
     }
 
     @Test

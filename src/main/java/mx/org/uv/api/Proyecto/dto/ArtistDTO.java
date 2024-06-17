@@ -1,18 +1,20 @@
 package mx.org.uv.api.Proyecto.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.bson.types.ObjectId;
+import io.swagger.v3.oas.annotations.media.Schema;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+@Schema(description = "DTO que representa un artista musical")
 public class ArtistDTO {
-    private ObjectId id;
+
+    @Schema(description = "ID único del artista", example = "60d5ec49c2a3543d2c1c73b1")
+    private String id;
+
+    @Schema(description = "Nombre del artista", example = "The Beatles")
     private String name;
+
+    @Schema(description = "Género musical del artista", example = "Rock")
     private String genre;
+
+    @Schema(description = "Biografía del artista", example = "Banda de rock británica formada en Liverpool en 1960")
     private String bio;
+
 }

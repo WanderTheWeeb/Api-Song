@@ -1,9 +1,6 @@
 package mx.org.uv.api.Proyecto.error;
 
-import mx.org.uv.api.Proyecto.error.exception.AlbumAlreadyExistsException;
-import mx.org.uv.api.Proyecto.error.exception.AlbumNotFoundException;
-import mx.org.uv.api.Proyecto.error.exception.ArtistNotFoundException;
-import mx.org.uv.api.Proyecto.error.exception.SongNotFoundException;
+import mx.org.uv.api.Proyecto.error.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -41,6 +38,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleArtistNotFoundException(ArtistNotFoundException ex, WebRequest request) {
         ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ArtistAlredyExistException.class)
+    public ResponseEntity<?> handleArtistAlredyExistException(ArtistAlredyExistException ex, WebRequest request) {
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(errorDetails, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
