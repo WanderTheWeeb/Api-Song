@@ -51,6 +51,21 @@
 ## Documentación
 La documentación de la API se encuentra en la siguiente URL: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
 
+## Artefactos
+
+### Diagrama de modelo de datos
+
+![Diagrama de entidad-relación](/artifacts/Modelo-de-datos.png)
+
+### Diagrama de Despliegue
+
+![Diagrama de arquitectura](/artifacts/Diagrama-De-Despliegue.png)
+
+
+### Documento de diseño
+
+Puedes encontrar el documento de especificaciones de requerimientos [aquí](/artifacts/Api-Song.pdf).
+
 ---
 
 ## Información general
